@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# usage: ./runA7.sh
+# usage: ./runA7Interpreter.sh
 
 # relative path from project directory - A7
 #javac -verbose -d ./out/production/A7/ -sourcepath src/ -classpath out/production/A7/ src/controller/Interpreter.java
-[ -d "log" ] || mkdir log
 javac -verbose -d out/production/A7/ -sourcepath src/ src/interpreter/Interpreter.java
 COMPILE_RET=$?
 [ $COMPILE_RET -ne 0 ] && exit $COMPILE_RET
