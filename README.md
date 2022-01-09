@@ -1,5 +1,13 @@
 # TO DO
 
+| SymbolTable | Heap   | FileTable       | Active Program States |  
+|-------------|--------|-----------------|-----------------------|
+|             |        |                 | States                |
+| ExeSack     | Output | 1 step Button   | States                |
+|             |        | All Step Button |                       |
+
+
+
 1. A window to select the program that will be executed. You can display the  
    list of possible programs as a ListView. Each item of the ListView is the string  
    representation of a possible program (IStmt).
@@ -68,3 +76,16 @@ implement the handler of this button based on the previous method allStep
 After each run the displayed information is updated. You may want to write a  
 service which wraps the repository and signals any change of the list of  
 PrgStates.
+
+
+# How to configure JavaFX
+
+1. File | Project Structures | Libraries | + (New Project Library) | path/to/javaFX_SDK
+2. Add  
+`--module-path /home/kamui/Programs/javafx-sdk-17.0.1/lib --add-modules javafx.controls,javafx.fxml`  
+to Run Configuration | VM Options
+
+## Some guides
+1. https://stackoverflow.com/questions/7065402/how-to-add-external-library-in-intellij-idea
+2. https://stackoverflow.com/questions/51478675/error-javafx-runtime-components-are-missing-and-are-required-to-run-this-appli 
+   1. https://stackoverflow.com/questions/52467561/intellij-cant-recognize-javafx-11-with-openjdk-11 

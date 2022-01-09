@@ -2,11 +2,11 @@
 
 
 # compile
-javafxc -d out/production/A7/ -sourcepath src/ src/ # TODO: complete with path to main()
+javafxc -d out/production/A7/ -sourcepath src/ src/view/Main
 
 # exit if compilation fails
 COMPILE_RET=$?
 [ $COMPILE_RET -ne 0 ] && exit $COMPILE_RET
 
 # run
-javafx -classpath out/production/A7
+javafx -classpath out/production/A7 view.Main
