@@ -5,7 +5,6 @@ import model.adts.Dictionary;
 import model.state.ProgramState;
 import model.statement.CompoundStatement;
 import model.statement.IStatement;
-import model.types.Type;
 import model.values.Value;
 import repository.IRepository;
 import repository.Repository;
@@ -58,41 +57,35 @@ public class Interpreter {
     public void setInterpreterArguments(String[] args) {
         for (String s : args) {
             switch (s) {
-                case "-d": {
-                    setDisplayStateFlag(true);
-                    break;
-                }
-                case "-dh": {
+                case "-d" -> setDisplayStateFlag(true);
+                case "-dh" -> {
                     setDisplayStateFlag(true);
                     setHideCompoundsFlag(true);
-                    break;
 
                 }
-                case "-df": {
+                case "-df" -> {
                     setDisplayStateFlag(true);
                     setDisplayInFileFlag(true);
-                    break;
                 }
-                case "-dhf": {
+                case "-dhf" -> {
                     setDisplayStateFlag(true);
                     setDisplayInFileFlag(true);
                     setHideCompoundsFlag(true);
-                    break;
 
                 }
             }
         }
     }
 
-    private boolean ranGarbageCollector(List<ProgramState> programList) {
+    private void ranGarbageCollector(List<ProgramState> programList) {
         if (programList.isEmpty()) {
-            return false;
+            return;
         }
 
         IHeap<Integer, Value> heap = programList.get(0).getHeap();
         int heapSizeBeforeCleaning = heap.getContent().size();
         if (heapSizeBeforeCleaning == 0) {
-            return false;
+            return;
         }
 
 //        Function<Map<Integer, Value>, String> heapMapToStringOfAddresses = h -> h.keySet().stream()
@@ -106,7 +99,7 @@ public class Interpreter {
         Map<Integer, Value> cleanedHeapEntries = GarbageCollector.getCleanedHeapEntries(symbolTablesValuesList, heap.getContent());
         heap.setContent(cleanedHeapEntries);
 
-        return (cleanedHeapEntries.size() < heapSizeBeforeCleaning);
+//        return (cleanedHeapEntries.size() < heapSizeBeforeCleaning);
 //        System.out.println();
     }
 
@@ -213,6 +206,8 @@ public class Interpreter {
 
     public static void main(String[] args) {
         /* main Version 4 */
+        System.out.println("Current Working Directory = " + System.getProperty("user.dir"));
+
         TextMenu textMenu = new TextMenu();
 
         textMenu.addCommand(new ExitCommand("0", "exit"));

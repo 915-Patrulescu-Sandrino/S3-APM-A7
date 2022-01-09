@@ -3,10 +3,8 @@ package repository;
 import exceptions.repository.RepositoryEmptyException;
 import model.state.ProgramState;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +46,16 @@ public class Repository implements IRepository<ProgramState> {
         if (elements.size() == 0) {
             throw new RepositoryEmptyException("[Repository.logProgramStateExecution()] Repository is empty");
         }
+
+        // test if  the log directory doesn't exist
+        File logDirectory = new File(logFilePath).getParentFile();
+        if (Files.notExists(logDirectory.toPath())) {
+            // doesn't exist => create it
+            if (!(logDirectory.mkdir())) {
+                throw new Exception("[Repository.logProgramStateExecution] Failed - Reason: could not create directory " + logDirectory);
+            }
+        }
+
 
         try (PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, appendInFile)))) {
             if (prefixProgramState != null) logFile.print(prefixProgramState);
