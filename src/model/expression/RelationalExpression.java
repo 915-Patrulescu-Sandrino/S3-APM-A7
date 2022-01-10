@@ -2,8 +2,8 @@ package model.expression;
 
 import exceptions.expression.InvalidOperandException;
 import exceptions.expression.InvalidOperatorException;
-import model.adts.IHeap;
 import model.adts.IDictionary;
+import model.adts.IHeap;
 import model.types.BoolType;
 import model.types.IntType;
 import model.types.Type;

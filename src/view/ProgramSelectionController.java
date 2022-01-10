@@ -20,6 +20,12 @@ public class ProgramSelectionController implements Initializable {
     @FXML
     private Button loadButton;
 
+    private IStatement loadedProgram = null;
+
+    public IStatement getLoadedProgram() {
+        return loadedProgram; // .deepCopy();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         programsListListView.setItems(FXCollections.observableList(IStatement.IStatementExamples.examples));
@@ -31,7 +37,8 @@ public class ProgramSelectionController implements Initializable {
         programsListListView.getSelectionModel().selectedItemProperty().addListener(e -> {
             int index = programsListListView.getSelectionModel().getSelectedIndex();
             System.out.println("Pressed Load on " + programsListListView.getItems().get(index).toString());
-
+            loadedProgram = programsListListView.getItems().get(index);
+            // TODO notify ProgramExecutionController
         });
     }
 }

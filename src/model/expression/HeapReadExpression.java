@@ -1,8 +1,8 @@
 package model.expression;
 
 import exceptions.expression.InvalidOperandException;
-import model.adts.IHeap;
 import model.adts.IDictionary;
+import model.adts.IHeap;
 import model.types.RefType;
 import model.types.Type;
 import model.values.RefValue;

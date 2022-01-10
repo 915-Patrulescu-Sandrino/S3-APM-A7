@@ -1,7 +1,7 @@
 package model.expression;
 
-import model.adts.IHeap;
 import model.adts.IDictionary;
+import model.adts.IHeap;
 import model.interfaces.Cloneable;
 import model.types.Type;
 import model.values.Value;

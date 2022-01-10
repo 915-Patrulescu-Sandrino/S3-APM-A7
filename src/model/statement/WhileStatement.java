@@ -1,8 +1,8 @@
 package model.statement;
 
+import model.adts.IDictionary;
 import model.adts.IExecutionStack;
 import model.adts.IHeap;
-import model.adts.IDictionary;
 import model.expression.Expression;
 import model.state.ProgramState;
 import model.types.BoolType;

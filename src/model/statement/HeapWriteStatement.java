@@ -1,7 +1,7 @@
 package model.statement;
 
-import model.adts.IHeap;
 import model.adts.IDictionary;
+import model.adts.IHeap;
 import model.expression.Expression;
 import model.state.ProgramState;
 import model.types.RefType;

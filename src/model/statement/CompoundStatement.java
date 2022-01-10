@@ -1,7 +1,7 @@
 package model.statement;
 
-import model.adts.IExecutionStack;
 import model.adts.IDictionary;
+import model.adts.IExecutionStack;
 import model.state.ProgramState;
 import model.types.Type;
 

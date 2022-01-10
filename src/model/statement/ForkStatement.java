@@ -1,12 +1,8 @@
 package model.statement;
 
-import model.adts.*;
+import model.adts.IDictionary;
 import model.state.ProgramState;
 import model.types.Type;
-import model.values.StringValue;
-import model.values.Value;
-
-import java.io.BufferedReader;
 
 public class ForkStatement implements IStatement {
     private final IStatement statement;

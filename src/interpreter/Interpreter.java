@@ -1,7 +1,7 @@
 package interpreter;
 
-import model.adts.IHeap;
 import model.adts.Dictionary;
+import model.adts.IHeap;
 import model.state.ProgramState;
 import model.statement.CompoundStatement;
 import model.statement.IStatement;
