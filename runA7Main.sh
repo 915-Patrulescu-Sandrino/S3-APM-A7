@@ -2,7 +2,7 @@
 
 
 # compile
-javafxc -d out/production/A7/ -sourcepath src/ src/view/Main
+javafxc -d out/production/A7/ -sourcepath src/ src/view/Main.java
 
 # exit if compilation fails
 COMPILE_RET=$?
