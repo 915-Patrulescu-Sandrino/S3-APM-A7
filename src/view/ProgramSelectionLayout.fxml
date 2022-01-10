@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="view.ProgramSelectionController"
+            prefHeight="400.0" prefWidth="600.0"
+            alignment="CENTER"
+            stylesheets="@programSelection.css">
+
+    <children>
+        <ListView fx:id="programsListListView" editable="true"/>
+        <HBox alignment="BOTTOM_LEFT">
+            <children>
+                <Button fx:id="loadButton" onAction="#handleLoadButtonAction" text="_Load"/>
+            </children>
+        </HBox>
+    </children>
+</VBox>
