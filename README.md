@@ -1,13 +1,5 @@
 # TO DO
 
-| SymbolTable | Heap   | FileTable       | Active Program States |  
-|-------------|--------|-----------------|-----------------------|
-|             |        |                 | States                |
-| ExeSack     | Output | 1 step Button   | States                |
-|             |        | All Step Button |                       |
-
-
-
 1. A window to select the program that will be executed. You can display the  
    list of possible programs as a ListView. Each item of the ListView is the string  
    representation of a possible program (IStmt).

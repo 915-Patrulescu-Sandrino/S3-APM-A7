@@ -30,7 +30,7 @@ public class Main extends Application {
 
 
         GridPane programExecutionGridPane = (GridPane) FXMLLoader.load(Objects.requireNonNull(getClass().getResource(programExecutionFXMLName)));
-        Scene programExecutionScene = new Scene(programExecutionGridPane, 500, 500);
+        Scene programExecutionScene = new Scene(programExecutionGridPane, 800, 750);
         programExecutionStage.setScene(programExecutionScene);
         programExecutionStage.setTitle("Program Execution");
         programExecutionStage.show();
@@ -45,4 +45,4 @@ public class Main extends Application {
     }
 }
 // compile + run:
-// javafxc -d out/production/A7/ -sourcepath src/ src/view/Main.java && javafx -classpath out/production/A7 view.Main
+// javafxc -d out/production/A7/ -sourcepath src/ $(find src/ -name "*.java") && javafx -classpath out/production/A7 view.Main
