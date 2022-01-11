@@ -33,6 +33,9 @@
         <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
             <Text text="Symbol Table:"/>
             <TableView fx:id="symbolTableTableView">
+                <columnResizePolicy>  <!-- to get rid of the extra space in the header column-->
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="symbolTableTableViewSymbolColumn" text="Symbol"/>
                     <TableColumn fx:id="symbolTableTableViewValueColumn" text="Value"/>
@@ -43,6 +46,9 @@
         <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
             <Text text="Heap:"/>
             <TableView fx:id="heapTableTableView">
+                <columnResizePolicy>  <!-- to get rid of the extra space in the header column-->
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="heapTableTableViewAddressColumn" text="Address"/>
                     <TableColumn fx:id="heapTableTableViewValueColumn" text="Value"/>
@@ -53,6 +59,9 @@
         <VBox GridPane.columnIndex="2" GridPane.rowIndex="1">
             <Text text="File Table:"/>
             <TableView fx:id="fileTableTableView">
+                <columnResizePolicy>  <!-- to get rid of the extra space in the header column-->
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
                 <columns>
                     <TableColumn fx:id="fileTableTableViewIDColumn" text="ID"/>
                     <TableColumn fx:id="fileTableTableViewFileColumn" text="File"/>

@@ -48,6 +48,7 @@ public class Main extends Application {
         }
     }
 }
+// VM Options for IntelliJ: --module-path /home/kamui/Programs/javafx-sdk-17.0.1/lib --add-modules javafx.controls,javafx.fxml
 // compile + run:
 // javafxc -d out/production/A7/ $(find src/ -name "*.java") && javafx -classpath out/production/A7/ view.Main
 // jfxr out/production/A7/ src/ view.Main
