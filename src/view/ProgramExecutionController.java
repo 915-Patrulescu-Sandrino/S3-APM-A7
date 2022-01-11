@@ -3,10 +3,7 @@ package view;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,9 +21,23 @@ public class ProgramExecutionController implements Initializable {
     @FXML
     private TableView symbolTableTableView;
     @FXML
+    private TableColumn symbolTableTableViewSymbolColumn;
+    @FXML
+    private TableColumn symbolTableTableViewValueColumn;
+    
+    @FXML
     private TableView heapTableTableView;
+	@FXML
+	private TableColumn heapTableTableViewAddressColumn;
+	@FXML
+	private TableColumn heapTableTableViewValueColumn;
+    
     @FXML
     private TableView fileTableTableView;
+	@FXML
+	private TableColumn fileTableTableViewIDColumn;
+	@FXML
+	private TableColumn fileTableTableViewFileColumn;
 
     @FXML
     private ListView executionStackListView;

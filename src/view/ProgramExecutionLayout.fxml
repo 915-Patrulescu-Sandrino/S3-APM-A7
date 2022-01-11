@@ -32,17 +32,32 @@
 <!--        Symbol Table -->
         <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
             <Text text="Symbol Table:"/>
-            <TableView fx:id="symbolTableTableView"/>
+            <TableView fx:id="symbolTableTableView">
+                <columns>
+                    <TableColumn fx:id="symbolTableTableViewSymbolColumn" text="Symbol"/>
+                    <TableColumn fx:id="symbolTableTableViewValueColumn" text="Value"/>
+                </columns>
+            </TableView>
         </VBox>
 <!--        Heap Table -->
         <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
             <Text text="Heap:"/>
-            <TableView fx:id="heapTableTableView"/>
+            <TableView fx:id="heapTableTableView">
+                <columns>
+                    <TableColumn fx:id="heapTableTableViewAddressColumn" text="Address"/>
+                    <TableColumn fx:id="heapTableTableViewValueColumn" text="Value"/>
+                </columns>
+            </TableView>
         </VBox>
 <!--        File Table -->
         <VBox GridPane.columnIndex="2" GridPane.rowIndex="1">
             <Text text="File Table:"/>
-            <TableView fx:id="fileTableTableView"/>
+            <TableView fx:id="fileTableTableView">
+                <columns>
+                    <TableColumn fx:id="fileTableTableViewIDColumn" text="ID"/>
+                    <TableColumn fx:id="fileTableTableViewFileColumn" text="File"/>
+                </columns>
+            </TableView>
         </VBox>
 <!--        HBox of Execution Stack and Out List -->
         <HBox GridPane.columnIndex="0" GridPane.rowIndex="2"
