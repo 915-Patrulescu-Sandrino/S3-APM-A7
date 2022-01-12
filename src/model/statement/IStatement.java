@@ -234,7 +234,28 @@ public interface IStatement extends Cloneable<IStatement> {
                     ));
 
 //            statementList.add(new CompoundStatement(new AssignmentStatement("v", new ValueExpression(new IntValue(10))), new PrintStatement(new VariableExpression("v"))));
-            
+
+
+            statementList.add(
+                new CompoundStatement(
+                    new ForkStatement(
+                        new CompoundStatement(
+                            new ForkStatement(
+                                new CompoundStatement(
+                                    new ForkStatement(new PrintStatement(new ValueExpression(new StringValue("hello 4")))),
+                                        new PrintStatement(new ValueExpression(new StringValue("hello 3")))
+                                )
+                            ),
+                            new PrintStatement(new ValueExpression(new StringValue("hello 2")))
+                        )
+                    ),
+                    new PrintStatement(new ValueExpression(new StringValue("hello 1")))
+                )
+            );
+
+
+
+
             return statementList;
         }
     }

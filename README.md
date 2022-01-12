@@ -1,19 +1,24 @@
 # TO DO
-## Other list
-1. Ask the lab teacher how did she made the ListView print
+## Ask list
+1. Ask the lab teacher how did she make the ListView print
 the Statement stringed instead of Interpreter addresses
-2. 
-
-
+2. 1-liners vs non 1-liners (see ProgramExecutionController.setNumberOfActiveProgramStatesTextField())
+3. can it be improved? (see ProgramExecutionController.setProgramStateIDsListView())
+4. call to setCellValueFactory can set in initialize? (see ProgramExecutionController.setSymbolTableTableViewAndExecutionStackListView())
+5. Should the programStateIDsListView have single selection?
 
 ## Self-Assigned:
-1. What happens when you load a program multiple times and how do you fix it if it doesn't work?
-2. 
+2. Ce se intampla la final? daca apelam update() nu se golesc cumva View-urile
+inainte sa apucam sa le vedem?
 3. 
-4. 
-5. 
-6. cleanup
-7. See Evernote/To Do Tree/Uni
+4. .
+5. What happens when you load a program multiple times and how do you fix it if it doesn't work?
+6. See what happens to ThreadIDs at others
+7. test alert.setHeaderText(null);
+8. 
+9. 
+10. cleanup
+11. See Evernote/To Do Tree/Uni
 
 
 ## Lab9/10.pdf
@@ -48,6 +53,9 @@ After each run the displayed information is updated. You may want to write a
 service which wraps the repository and signals any change of the list of  
 PrgStates.
 
+
+# Done
+1. can selectionModel().getSelectedItem() return null? ANSWER: YES IT CAN
 
 
 

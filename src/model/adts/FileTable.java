@@ -5,6 +5,7 @@ import model.values.StringValue;
 import java.io.BufferedReader;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 
 public class FileTable implements IFileTable<StringValue, BufferedReader> {
     private final Map<StringValue, BufferedReader> fileTable;
@@ -40,5 +41,11 @@ public class FileTable implements IFileTable<StringValue, BufferedReader> {
             result = result.concat(fileName.toString() + "\n");
         }
         return result;
+    }
+
+
+    @Override
+    public Set<Map.Entry<StringValue, BufferedReader>> getContent() {
+        return fileTable.entrySet();
     }
 }

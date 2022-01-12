@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.state.ProgramState;
@@ -100,8 +97,13 @@ public class ProgramSelectionController implements Initializable {
         if (selectedProgramIndex == -1) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Program Selection Error");
-            alert.setHeaderText("You didn't select any program to load!");
+//            alert.setHeaderText("You didn't select any program to load!");
+            alert.setHeaderText(null);
             alert.setContentText("Please select a program before pressing the Load Button.");
+
+            Button confirm = (Button) alert.getDialogPane().lookupButton( ButtonType.OK );
+            confirm.setDefaultButton(false);
+            confirm.setStyle("-fx-focus-color: transparent; -fx-faint-focus-color: transparent;");
             alert.showAndWait();
             return;
         }

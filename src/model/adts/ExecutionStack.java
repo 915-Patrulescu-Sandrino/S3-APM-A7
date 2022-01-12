@@ -47,8 +47,8 @@ public class ExecutionStack<V> implements IExecutionStack<V> {
                 result = result.concat(statement + "\n");
             }
             if (statement instanceof CompoundStatement) {
-                for (IStatement atomicStatement : ((CompoundStatement) statement).InOrderTraversal()) {
-                    result = result.concat(atomicStatement.toString() + "\n");
+                for (IStatement atomStatement : ((CompoundStatement) statement).InOrderTraversal()) {
+                    result = result.concat(atomStatement.toString() + "\n");
                 }
             }
         }

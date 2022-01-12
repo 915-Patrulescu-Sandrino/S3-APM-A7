@@ -18,7 +18,12 @@ public class ProgramState {
     private final IHeap<Integer, Value> heap;
     private final IStatement originalProgram;
     private static int id = 1;
-    private int tid = getNewProgramStateId(1000);
+
+    public int getThreadID() {
+        return threadID;
+    }
+
+    private int threadID = getNewProgramStateId(1000);
 
     private synchronized int getNewProgramStateId(int  addition) {
         id = id + addition;
@@ -92,7 +97,7 @@ public class ProgramState {
         map.put(3, Map.entry("OutList", outList.toString()));
         map.put(4, Map.entry("FileTable", fileTable.toString()));
         map.put(5, Map.entry("Heap", heap.toString()));
-        return String.format("ID: %4s\n", tid) + map.values().stream()
+        return String.format("ID: %4s\n", threadID) + map.values().stream()
                 .map(s -> prefix + s.getKey() + suffix + "\n" + s.getValue() + "\n")
                 .reduce("", (acc, item) -> acc+ item).concat("\n\n\n");
     }
@@ -118,7 +123,7 @@ public class ProgramState {
         this.heap = programState.heap;
         this.originalProgram = statement.deepCopy();
         this.executionStack.push(statement);
-        this.tid = programState.tid + 1;
+        this.threadID = programState.threadID + 1;
     }
 
     public ProgramState fork(IStatement statement) {

@@ -1,6 +1,7 @@
 package interpreter;
 
 import model.adts.Dictionary;
+import model.adts.IExecutionStack;
 import model.adts.IHeap;
 import model.state.ProgramState;
 import model.statement.CompoundStatement;
@@ -15,7 +16,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Interpreter {
     @Override
@@ -23,14 +23,19 @@ public class Interpreter {
         return repository.getLatestOriginalStatement().toString();
     }
 
+    public List<ProgramState> getProgramStateList() {
+        return repository.getProgramList();
+    }
+
     private final IRepository<ProgramState> repository;
-    private ExecutorService executor;
-    private boolean displayStateFlag = false;
+    private final ExecutorService executor;
+    private boolean displayStateFlag = true;
     private boolean displayInFileFlag = false;
     private boolean hideCompoundsFlag = false;
 
     public Interpreter(IRepository<ProgramState> repository) {
         this.repository = repository;
+        executor = Executors.newFixedThreadPool(10);
     }
 
     public boolean isDisplayStateFlag() {
@@ -135,10 +140,6 @@ public class Interpreter {
 
     }
 
-    public void setNewProgram(IStatement programStatement) {
-        repository.setNewProgram(new ProgramState(programStatement));
-    }
-
     public void oneStepForAllPrograms(List<ProgramState> programList) {
 //        logProgramStateExecution(programList, "\033[1mBEFORE\033[0m\n"); // moved in allStep
 
@@ -170,8 +171,11 @@ public class Interpreter {
         repository.setProgramList(programList);
     }
 
+    public void oneStepForAllPrograms() {
+        this.oneStepForAllPrograms(repository.getProgramList());
+    }
+
     public void allStep() {
-        executor = Executors.newFixedThreadPool(2);
 
         List<ProgramState> programList = removeCompletedProgram(repository.getProgramList());
         logProgramStateExecution(programList, null); // moved here from oneStepForAllProgramState()
@@ -190,6 +194,33 @@ public class Interpreter {
         return programStateList.stream()
                 .filter(ProgramState::isNotCompleted)
                 .collect(Collectors.toList());
+    }
+
+    public int getRepoSize() {
+        return repository.size();
+    }
+
+    public boolean isNotFinished() {
+        // turn the Program State List into a stream
+//        return repository.getProgramList().stream()
+//                // map it to their Execution Stack
+//                .map(ProgramState::getExecutionStack)
+//                // and map those stack to the value of them being  empty
+//                .map(IExecutionStack::isEmpty)
+//                // if there's any of them which is not empty, then our program is not finished
+//                .anyMatch(aBoolean -> !aBoolean);
+        return repository.getProgramList().stream().anyMatch(ProgramState::isNotCompleted);
+    }
+
+    public boolean isFinished() { return ! isNotFinished();}
+
+    public void setNewProgram(IStatement programStatement) {
+        repository.setNewProgram(new ProgramState(programStatement));
+    }
+
+
+    public Optional<ProgramState> getAnyProgramState() {
+        return this.getProgramStateList().stream().findAny();
     }
 
     public static Interpreter createExampleInterpreter(IStatement statement, String logFilePath, String[] args) {
