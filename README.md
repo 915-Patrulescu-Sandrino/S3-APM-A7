@@ -1,5 +1,22 @@
 # TO DO
+## Other list
+1. Ask the lab teacher how did she made the ListView print
+the Statement stringed instead of Interpreter addresses
+2. 
 
+
+
+## Self-Assigned:
+1. What happens when you load a program multiple times and how do you fix it if it doesn't work?
+2. 
+3. 
+4. 
+5. 
+6. cleanup
+7. See Evernote/To Do Tree/Uni
+
+
+## Lab9/10.pdf
 1. A window to select the program that will be executed. You can display the  
    list of possible programs as a ListView. Each item of the ListView is the string  
    representation of a possible program (IStmt).
@@ -30,6 +47,8 @@ implement the handler of this button based on the previous method allStep
 After each run the displayed information is updated. You may want to write a  
 service which wraps the repository and signals any change of the list of  
 PrgStates.
+
+
 
 
 # Requirements

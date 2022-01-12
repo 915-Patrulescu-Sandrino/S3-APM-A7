@@ -1,10 +1,15 @@
 package repository;
 
 import model.state.ProgramState;
+import model.statement.IStatement;
 
 import java.util.List;
 
 public interface IRepository<E> {
+
+    IStatement getLatestOriginalStatement();
+
+    public void setNewProgram(ProgramState programState);
 
     void add(E e);
 

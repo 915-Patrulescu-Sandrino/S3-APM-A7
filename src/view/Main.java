@@ -4,7 +4,6 @@ package view;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import utils.FSUtils;
@@ -21,26 +20,19 @@ public class Main extends Application {
 
     @Override
     public void start(Stage programExecutionStage) throws IOException {
-        String programExecutionFXMLName = "ProgramExecutionLayout.fxml";
+        // copy the .fxml and .css files to classpath in order to have the latest version when they are required at run-time
         String programSelectionFXMLName = "ProgramSelectionLayout.fxml";
-        String programSelectionCSSName = "programSelection.css";
-        FSUtils.copyFile("src/view/" + programExecutionFXMLName, "out/production/A7/view/" + programExecutionFXMLName);
         FSUtils.copyFile("src/view/" + programSelectionFXMLName, "out/production/A7/view/" + programSelectionFXMLName);
+        String programSelectionCSSName = "programSelection.css";
         FSUtils.copyFile("src/view/" + programSelectionCSSName, "out/production/A7/view/" + programSelectionCSSName);
 
+        // set up the Program Selection Stage
         try {
-            GridPane programExecutionGridPane = (GridPane) FXMLLoader.load(Objects.requireNonNull(getClass().getResource(programExecutionFXMLName)));
-            Scene programExecutionScene = new Scene(programExecutionGridPane, 800, 750);
-            programExecutionStage.setScene(programExecutionScene);
-            programExecutionStage.setTitle("Program Execution");
-            programExecutionStage.show();
-
-
             VBox programSelectionVBox = (VBox)FXMLLoader.load(Objects.requireNonNull(getClass().getResource(programSelectionFXMLName)));
             Scene programSelectionScene = new Scene(programSelectionVBox);
             Stage programSelectionStage = new Stage();
-            programSelectionStage.setScene(programSelectionScene);
             programSelectionStage.setTitle("Program Selection");
+            programSelectionStage.setScene(programSelectionScene);
             programSelectionStage.show();
         }
         catch (Exception e) {

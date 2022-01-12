@@ -1,5 +1,6 @@
 package view;
 
+import interpreter.Interpreter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ProgramExecutionController implements Initializable {
+    private Interpreter interpreter;
 
     @FXML
     private TextField numberOfActiveProgramStatesTextField;
@@ -46,6 +48,10 @@ public class ProgramExecutionController implements Initializable {
 
     @FXML
     private ListView programStateIDsListView;
+
+    public ProgramExecutionController(Interpreter interpreter) {
+        this.interpreter = interpreter;
+    }
 
 
     @FXML

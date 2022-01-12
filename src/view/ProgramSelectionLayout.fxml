@@ -12,10 +12,13 @@
       stylesheets="@programSelection.css">
 
     <children>
-        <ListView fx:id="programsListListView" editable="true"/>
+        <ListView fx:id="interpretersListView" editable="true"/>
         <HBox alignment="BOTTOM_LEFT">
             <children>
-                <Button fx:id="loadButton" onAction="#handleLoadButtonAction" text="_Load"/>
+                <!-- The '_' in front of 'L' in the `text` property is to be able
+                 to press Alt + L (Linux) instead of clicking on the button.
+                 I think they are called `mnemonics`. -->
+                <Button fx:id="loadButton" text="_Load"/>
             </children>
         </HBox>
     </children>

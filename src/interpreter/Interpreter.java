@@ -10,16 +10,19 @@ import repository.IRepository;
 import repository.Repository;
 import view.*;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Interpreter {
+    @Override
+    public String toString() {
+        return repository.getLatestOriginalStatement().toString();
+    }
+
     private final IRepository<ProgramState> repository;
     private ExecutorService executor;
     private boolean displayStateFlag = false;
@@ -132,6 +135,10 @@ public class Interpreter {
 
     }
 
+    public void setNewProgram(IStatement programStatement) {
+        repository.setNewProgram(new ProgramState(programStatement));
+    }
+
     public void oneStepForAllPrograms(List<ProgramState> programList) {
 //        logProgramStateExecution(programList, "\033[1mBEFORE\033[0m\n"); // moved in allStep
 
@@ -227,101 +234,13 @@ public class Interpreter {
             /* or this*/
             textMenu.addCommand(new RunExampleCommand(Integer.toString(counter), statement, logFilePath, args));
         }
+
+        // create a command to run all the examples and add it to the menu
         Map<String, Command> allRunExampleCommandEntries = textMenu.getCommands().entrySet().stream()
                 .filter(entry -> entry.getValue() instanceof RunExampleCommand)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         textMenu.addCommand(new RunMultipleCommand(Integer.toString(counter), "Run all", allRunExampleCommandEntries));
+
         textMenu.show();
     }
 }
-
-/* main Version 1 */
-//        ProgramState programState1 = new ProgramState(IStatement.example1);
-//        IRepository<ProgramState> repository1 = new Repository(programState1, "log/log1.txt");
-//        Interpreter interpreter1 = new Interpreter(repository1);
-//        interpreter1.setInterpreterArguments(args);
-//
-//        ProgramState programState2 = new ProgramState(IStatement.example2);
-//        IRepository<ProgramState> repository2 = new Repository(programState2, "log/log2.txt");
-//        Interpreter interpreter2 = new Interpreter(repository2);
-//        interpreter2.setInterpreterArguments(args);
-//
-//        ProgramState programState3 = new ProgramState(IStatement.example3);
-//        IRepository<ProgramState> repository3 = new Repository(programState3, "log/log3.txt");
-//        Interpreter interpreter3 = new Interpreter(repository3);
-//        interpreter3.setInterpreterArguments(args);
-//
-//        TextMenu textMenu = new TextMenu();
-//        textMenu.addCommand(new ExitCommand("0", "exit"));
-//        textMenu.addCommand(new RunExampleCommand("1", IStatement.example1.toString(), interpreter1));
-//        textMenu.addCommand(new RunExampleCommand("2", IStatement.example2.toString(), interpreter2));
-//        textMenu.addCommand(new RunExampleCommand("3", IStatement.example3.toString(), interpreter3));
-//        textMenu.addCommand(new RunExampleCommand("4", IStatement.example1A3.toString(), interpreter4));
-//        textMenu.addCommand(new RunExampleCommand("5", IStatement.example2A3.toString(), interpreter5));
-//        textMenu.show();
-
-
-/* main Version 2 */
-//        Interpreter interpreter1, interpreter2, interpreter3;
-//        interpreter1 = Interpreter.createExampleInterpreter(IStatement.example1, "log/log1.txt", args);
-//        interpreter2 = Interpreter.createExampleInterpreter(IStatement.example2, "log/log2.txt", args);
-//        interpreter3 = Interpreter.createExampleInterpreter(IStatement.example3, "log/log3.txt", args);
-//        Interpreter interpreter4 = Interpreter.createExampleInterpreter(IStatement.example1A3, "log/log4.txt", args);
-//        Interpreter interpreter5 = Interpreter.createExampleInterpreter(IStatement.example2A3, "log/log5.txt", args);
-//
-//        TextMenu textMenu = new TextMenu();
-//        textMenu.addCommand(new ExitCommand("0", "exit"));
-//        textMenu.addCommand(new RunExampleCommand("1", IStatement.example1.toString(), interpreter1));
-//        textMenu.addCommand(new RunExampleCommand("2", IStatement.example2.toString(), interpreter2));
-//        textMenu.addCommand(new RunExampleCommand("3", IStatement.example3.toString(), interpreter3));
-//        textMenu.addCommand(new RunExampleCommand("4", IStatement.example1A3.toString(), interpreter4));
-//        textMenu.addCommand(new RunExampleCommand("5", IStatement.example2A3.toString(), interpreter5));
-//        textMenu.show();
-
-
-/* main Version 3 */
-//    TextMenu textMenu = new TextMenu();
-//        textMenu.addCommand(new ExitCommand("0", "exit"));
-//                textMenu.addCommand(new RunExampleCommand("1", IStatement.example1A2, "log/log01.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("2", IStatement.example2A2, "log/log02.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("3", IStatement.example3A2, "log/log03.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("4", IStatement.example1A3, "log/log04.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("5", IStatement.example2A3, "log/log05.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("6", IStatement.example1A4, "log/log06.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("7", IStatement.example2A4, "log/log07.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("8", IStatement.example3A4, "log/log08.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("9", IStatement.example4A4, "log/log09.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("10", IStatement.example5A4, "log/log10.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("11", IStatement.e11, "log/log11.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("12", IStatement.example1A5, "log/log12.txt", args));
-//                textMenu.addCommand(new RunExampleCommand("13", IStatement.e13, "log/log13.txt", args));
-//
-//                Map<String, Command> allRunExampleCommandEntries = textMenu.getCommands().entrySet().stream()
-//        .filter(entry -> entry.getValue() instanceof RunExampleCommand)
-//        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-//        textMenu.addCommand(new RunMultipleCommand("14", "Run all", allRunExampleCommandEntries));
-//        textMenu.show();
-
-/* Log */
-
-// A3 changes:
-// 2021.11.13 ~01:20:00
-//      Fixed:
-//      - referencing null pointer inside readFileStatement.execute() by checking the result of BufferedReader.nextLine()
-
-// 2021.11.13 01:23:00
-//      Fixed:
-//      - improper logProgramStatement Handling for right interpreter arguments (added break; in the switch for passing arguments)
-//
-
-// A4 changes:
-// 2021.11.16 ~23:54
-//      - clearing the log file is now done inside the program, in the logProgramState method from repository
-//      - CompoundStatement.toString no longer prints brackets "()
-//      -
-
-// A5 changes:
-// 2021.11.22 21:15
-//      - added ProgramState.prettyPrintFunctional(String, String), but it prints the outList first
-//      - added a RunMultipleCommand whose constructor receives as arguments a map of commands
-//      - added GarbageCollector.getAddressesFromSymbolTable(Collection<Value>, IHeap<Integer, Value>) which goes in depth for every RefValue found in the SymbolTable

@@ -2,6 +2,7 @@ package repository;
 
 import exceptions.repository.RepositoryEmptyException;
 import model.state.ProgramState;
+import model.statement.IStatement;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -9,15 +10,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Repository implements IRepository<ProgramState> {
+
+
     private List<ProgramState> elements;
     private final String logFilePath;
     private boolean appendInFile = false;
+
+    private IStatement latestOriginalStatement;
+
+    /**
+     * returns the original statement of the last ProgramState set to the repository using the method setNewProgram(ProgramState)
+     * @return
+     */
+    @Override
+    public IStatement getLatestOriginalStatement() {
+        return latestOriginalStatement;
+    }
+
+    @Override
+    public void setNewProgram(ProgramState programState) {
+        elements = List.of(programState);
+        latestOriginalStatement = programState.getOriginalProgram();
+    }
 
     public Repository(ProgramState programState, String logFilePath) {
         this.elements = new ArrayList<>();
         this.elements.add(programState);
 
         this.logFilePath = logFilePath;
+        this.latestOriginalStatement = programState.getOriginalProgram();
     }
 
     public Repository(String logFilePath) {
