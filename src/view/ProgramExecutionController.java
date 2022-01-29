@@ -83,8 +83,8 @@ public class ProgramExecutionController implements Initializable {
         setOutListListView();
         setFileTableTableView();
         setProgramStateIDsListView();
-        programStateIDsListView.getSelectionModel().selectFirst();
         if (programStateIDsListView.getSelectionModel().getSelectedItem() == null) {
+            programStateIDsListView.getSelectionModel().selectFirst();
         }
         setSymbolTableTableViewAndExecutionStackListView();
     }
@@ -147,7 +147,7 @@ public class ProgramExecutionController implements Initializable {
 //                            .map(Integer::parseInt).reduce(0, Integer::sum))
                 // tale the first one, and, if it exists
                     .ifPresent(programState -> {
-                    System.out.println("setSymbolTableTableViewAndExecutionStackListView(): found present ID" + programState.getThreadID());
+                    //System.out.println("setSymbolTableTableViewAndExecutionStackListView(): found present ID" + programState.getThreadID());
                     symbolTableTableView.setItems(FXCollections.observableList(programState.getSymbolTable().getContent().entrySet().stream().toList()));
                     executionStackListView.setItems(FXCollections.observableList(Arrays.asList(programState.getExecutionStack().toString().split("\n"))));
                 });
@@ -207,14 +207,14 @@ public class ProgramExecutionController implements Initializable {
 
     @FXML
     public void handleOneStepButtonAction(ActionEvent actionEvent) {
-        System.out.println("1 Step Button Pressed");
+//        System.out.println("1 Step Button Pressed");
         // TODO
         oneStep();
     }
 
     @FXML
     public void handleAllStepButtonAction(ActionEvent actionEvent) {
-        System.out.println("All Step Button Pressed");
+//        System.out.println("All Step Button Pressed");
         // TODO
         // pressing All Step on an already completed program
         if (interpreter.isFinished()) {

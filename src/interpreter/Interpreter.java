@@ -30,7 +30,7 @@ public class Interpreter {
     private final IRepository<ProgramState> repository;
     private final ExecutorService executor;
     private boolean displayStateFlag = true;
-    private boolean displayInFileFlag = false;
+    private boolean displayInFileFlag = true;
     private boolean hideCompoundsFlag = false;
 
     public Interpreter(IRepository<ProgramState> repository) {

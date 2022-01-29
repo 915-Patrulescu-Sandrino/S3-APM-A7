@@ -8,6 +8,12 @@ DATE\_FORMAT=`YYYY.MM.DD [~]HH:MM[:SS]
 2. feature 2
 ...
 
+# changes 2022.01.29
+1. added `.getDeclaredConstructor()` in ProgramSelectionController line 121 to get rid of the compiler warning
+2. set the default value for logging to file to true
+3. add typechecking with alert for the program examples in ProgramSelectionController.interpreterSetUp() UPDATE: exclude the failed programs from the list of added programs
+
+
 
 # A7 changes 2022.01.?? ??:?? -> 2022.01.?? ??:??
 

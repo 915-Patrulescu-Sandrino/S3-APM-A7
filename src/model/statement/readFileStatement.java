@@ -85,6 +85,6 @@ public class readFileStatement implements IStatement {
 
     @Override
     public String toString() {
-        return "readFileStatement(" + expression.toString() + ", " + name + ")";
+        return "readFile(" + expression.toString() + ", " + name + ")";
     }
 }

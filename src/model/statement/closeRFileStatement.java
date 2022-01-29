@@ -68,6 +68,6 @@ public class closeRFileStatement implements IStatement {
 
     @Override
     public String toString() {
-        return "closeRFileStatement(" + expression.toString() + ")";
+        return "closeRFile(" + expression.toString() + ")";
     }
 }

@@ -11,12 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import model.adts.Dictionary;
 import model.state.ProgramState;
 import model.statement.IStatement;
 import repository.Repository;
 import utils.FSUtils;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +46,25 @@ public class ProgramSelectionController implements Initializable {
 
         List<IStatement> programs = IStatement.IStatementExamples.examples;
         int programsListIndex;
+        int addedPrograms = 0; // used to give the log files the proper number
         for (programsListIndex = 0; programsListIndex < programs.size(); programsListIndex++) {
             IStatement program = programs.get(programsListIndex);
+
+            try {
+                program.typecheck(new Dictionary<>());
+            }
+            catch (Exception exception) {
+                String message = String.format("Typechecker failed for program: %s\nReason: %s", program.toString(), exception.getMessage());
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ProgramSelection Error");
+                alert.setHeaderText("Type checker failed!");
+                alert.setContentText("Program " + programsListIndex + " (counting starts at 0) didn't pass the type-checker");
+                alert.showAndWait();
+                continue;
+            }
+
             ProgramState programState = new ProgramState(program);
-            String logFilePath = String.format("log/log%02d.txt", programsListIndex);
+            String logFilePath = String.format("log/log%02d.txt", addedPrograms++);
 
             Repository repository = new Repository(programState, logFilePath);
             repositoryList.add(repository);
@@ -73,6 +90,7 @@ public class ProgramSelectionController implements Initializable {
         // initialize interpreters and add them to the ListView
         interpretersSetUp();
         ObservableList<Interpreter> interpreterObservableList = FXCollections.observableArrayList(interpretersList);
+
         interpretersListView.setItems(interpreterObservableList);
 
         // set the ListView Selection Mode to SINGLE Selection
@@ -107,8 +125,7 @@ public class ProgramSelectionController implements Initializable {
             alert.showAndWait();
             return;
         }
-        // TODO: (at the end, after it works) remove this line
-        System.out.println("Pressed Load on: " + interpretersListView.getItems().get(selectedProgramIndex));
+        //System.out.println("Pressed Load on: " + interpretersListView.getItems().get(selectedProgramIndex));
 
         // create a factory to be used for instantiating the ProgramExecutionController
         Callback<Class<?>, Object> programExecutionControllerFactory =  type -> {
@@ -117,8 +134,8 @@ public class ProgramSelectionController implements Initializable {
             }
             else {
                 try {
-                    return type.newInstance();
-                } catch (InstantiationException | IllegalAccessException ex) {
+                    return type.getDeclaredConstructor().newInstance(); // added .getDeclaredConstructor() to get rid of compiler warning
+                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
                     System.out.println("[ProgramSelectionController.initialize()] Failed to create controller for " + type.getName());
                     ex.printStackTrace();
                     throw new RuntimeException(ex);

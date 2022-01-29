@@ -64,6 +64,6 @@ public class openRFileStatement implements IStatement {
 
     @Override
     public String toString() {
-        return "openRFileStatement(" + expression.toString() + ")";
+        return "openRFile(" + expression.toString() + ")";
     }
 }

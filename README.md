@@ -1,11 +1,15 @@
 # TO DO
 ## Ask list
-1. Ask the lab teacher how did she make the ListView print
-the Statement stringed instead of Interpreter addresses
 2. 1-liners vs non 1-liners (see ProgramExecutionController.setNumberOfActiveProgramStatesTextField())
 3. can it be improved? (see ProgramExecutionController.setProgramStateIDsListView())
-4. call to setCellValueFactory can set in initialize? (see ProgramExecutionController.setSymbolTableTableViewAndExecutionStackListView())
-5. Should the programStateIDsListView have single selection?
+4. 
+5. 
+6. 
+7. 
+8. call to setCellValueFactory can set in initialize? (see ProgramExecutionController.setSymbolTableTableViewAndExecutionStackListView())
+9. Should the programStateIDsListView have single selection?
+
+
 
 ## Self-Assigned:
 2. Ce se intampla la final? daca apelam update() nu se golesc cumva View-urile

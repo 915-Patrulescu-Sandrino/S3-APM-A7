@@ -39,8 +39,16 @@ public interface IStatement extends Cloneable<IStatement> {
                                     new CompoundStatement(
                                             new AssignmentStatement(
                                                     "a",
-                                                    new ArithmeticExpression("+", new ValueExpression(new IntValue(2)),
-                                                            new ArithmeticExpression("*", new ValueExpression(new IntValue(3)), new ValueExpression(new IntValue(5))))),
+                                                    new ArithmeticExpression(
+                                                            "+",
+                                                            new ValueExpression(new IntValue(2)),
+                                                            new ArithmeticExpression(
+                                                                    "*",
+                                                                    new ValueExpression(new IntValue(3)),
+                                                                    new ValueExpression(new IntValue(5))
+                                                            )
+                                                    )
+                                            ),
                                             new CompoundStatement(
                                                     new AssignmentStatement(
                                                             "b",
@@ -233,7 +241,7 @@ public interface IStatement extends Cloneable<IStatement> {
                             )
                     ));
 
-//            statementList.add(new CompoundStatement(new AssignmentStatement("v", new ValueExpression(new IntValue(10))), new PrintStatement(new VariableExpression("v"))));
+            statementList.add(new CompoundStatement(new AssignmentStatement("v", new ValueExpression(new IntValue(10))), new PrintStatement(new VariableExpression("v"))));
 
 
             statementList.add(
@@ -253,7 +261,39 @@ public interface IStatement extends Cloneable<IStatement> {
                 )
             );
 
-
+            statementList.add(
+                    new CompoundStatement(
+                            new VariableDeclarationStatement("v", IntType.T),
+                            new WhileStatement(
+                                    new RelationalExpression(
+                                            "<=",
+                                            new VariableExpression("v"),
+                                            new ValueExpression(new IntValue(3))
+                                    ),
+                                    new CompoundStatement(
+                                            new ForkStatement(new CompoundStatement(
+                                                    new PrintStatement(new VariableExpression("v")),
+                                                    new AssignmentStatement(
+                                                            "v",
+                                                            new ArithmeticExpression(
+                                                                    "-",
+                                                                    new VariableExpression("v"),
+                                                                    new ValueExpression(new IntValue(1))
+                                                            )
+                                                    )
+                                            )),
+                                            new AssignmentStatement(
+                                                    "v",
+                                                    new ArithmeticExpression(
+                                                            "+",
+                                                        new VariableExpression("v"),
+                                                        new ValueExpression(new IntValue(1))
+                                                    )
+                                            )
+                                    )
+                            )
+                    )
+            );
 
 
             return statementList;
