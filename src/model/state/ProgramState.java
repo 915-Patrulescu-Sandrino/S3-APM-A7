@@ -1,6 +1,7 @@
 package model.state;
 
 
+import javafx.util.Pair;
 import model.adts.*;
 import model.statement.IStatement;
 import model.values.StringValue;
@@ -8,6 +9,7 @@ import model.values.Value;
 
 import java.io.BufferedReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -41,14 +43,13 @@ public class ProgramState {
 
     public ProgramState(IStatement originalProgram) {
         this.executionStack = new ExecutionStack<>();
-        this.symbolTable = new Dictionary<>();
+        this.symbolTable = new DictionaryWithClonableValues<>();
         this.outList = new OutList<>();
         this.fileTable = new FileTable();
         this.heap = new Heap();
         this.originalProgram = originalProgram;
         this.executionStack.push(originalProgram);
         this.threadID = lastProgramID.addAndGet(1000) + lastThreadID.incrementAndGet();
-
     }
 
     public ProgramState(IExecutionStack<IStatement> executionStack, IDictionary<String, Value> symbolTable, IOutList<Value> outList, IFileTable<StringValue, BufferedReader> fileTable, IHeap<Integer, Value> heap, IStatement originalProgram) {

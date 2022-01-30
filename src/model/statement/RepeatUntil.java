@@ -9,7 +9,6 @@ import model.expression.LogicNegationExpression;
 import model.state.ProgramState;
 import model.types.BoolType;
 import model.types.Type;
-import model.values.BoolValue;
 import model.values.Value;
 
 public class RepeatUntil implements IStatement {

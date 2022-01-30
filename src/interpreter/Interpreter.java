@@ -1,7 +1,6 @@
 package interpreter;
 
-import model.adts.Dictionary;
-import model.adts.IExecutionStack;
+import model.adts.DictionaryWithClonableValues;
 import model.adts.IHeap;
 import model.state.ProgramState;
 import model.statement.CompoundStatement;
@@ -250,7 +249,7 @@ public class Interpreter {
             IStatement statement = examples.get(counter - 1);
 
             try {
-                statement.typecheck(new Dictionary<>());
+                statement.typecheck(new DictionaryWithClonableValues<>());
             }
             catch (Exception exception) {
                 String message = String.format("Typechecker failed for statement: %d: %s\nReason: %s", counter, statement.toString(), exception.getMessage());

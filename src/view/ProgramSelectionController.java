@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import model.adts.Dictionary;
+import model.adts.DictionaryWithClonableValues;
 import model.state.ProgramState;
 import model.statement.IStatement;
 import repository.Repository;
@@ -51,7 +51,7 @@ public class ProgramSelectionController implements Initializable {
             IStatement program = programs.get(programsListIndex);
 
             try {
-                program.typecheck(new Dictionary<>());
+                program.typecheck(new DictionaryWithClonableValues<>());
             }
             catch (Exception exception) {
                 String message = String.format("Typechecker failed for program: %s\nReason: %s", program.toString(), exception.getMessage());

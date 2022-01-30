@@ -1,7 +1,5 @@
 package model.expression;
 
-import com.sun.jdi.BooleanType;
-import com.sun.jdi.BooleanValue;
 import exceptions.expression.InvalidOperandException;
 import model.adts.IDictionary;
 import model.adts.IHeap;
