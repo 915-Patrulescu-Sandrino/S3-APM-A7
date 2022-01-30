@@ -9,6 +9,17 @@ DATE\_FORMAT=`YYYY.MM.DD [~]HH:MM[:SS]
 ...
 
 
+# changes 2022.01.30 16:58 -> 
+1. Reapeat Until
+- add LogicNegationExpression + examples @ 17:40
+- add RepeatUntil Statement @ 18:18
+    - fix complete programs appearing in the State IDs @ 18:39 by filtering not complete programs in ProgramExecutionController.setProgramStateIDsListView
+- found run-time bug at ProgramExecutionController.setSymbolTableTableViewAndExecutionStackListView() when getting the selected item -> null case wasn't checked @ 20:52
+2. CyclicBarrier 19: -> 
+
+
+
+
 # changes 2022.01.29 02:01
 1. Trial #1: filter non finished program states in `Interpreter.oneStepForAllPrograms()`
 

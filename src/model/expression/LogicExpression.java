@@ -37,15 +37,13 @@ public class LogicExpression implements Expression {
 
         boolean result;
         switch (operator) {
-            case "&&": {
+            case "&&" -> {
                 result = boolValue1.getValue() && boolValue2.getValue();
-                break;
             }
-            case "||": {
+            case "||" -> {
                 result = boolValue1.getValue() || boolValue2.getValue();
-                break;
             }
-            default: {
+            default -> {
                 throw new Exception("Invalid operator for LogicExpression");
             }
         }

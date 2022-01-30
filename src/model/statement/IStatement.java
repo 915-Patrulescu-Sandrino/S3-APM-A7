@@ -296,6 +296,94 @@ public interface IStatement extends Cloneable<IStatement> {
             );
 
 
+            statementList.add(
+                    new IfStatement(
+                            new LogicNegationExpression(new ValueExpression(BoolValue.TRUE)),
+                            new PrintStatement(new ValueExpression(new StringValue("!(TRUE) evaluated to TRUE: THIS SHOULD NOT HAVE HAPPENED!"))),
+                            new PrintStatement(new ValueExpression(new StringValue("!(TRUE) evaluated to FALSE: As it should have.")))
+                    ));
+
+            statementList.add(
+                    new IfStatement(
+                            new LogicNegationExpression(new ValueExpression(BoolValue.FALSE)),
+                            new PrintStatement(new ValueExpression(new StringValue("!(FALSE) evaluated to TRUE: As it should have."))),
+                            new PrintStatement(new ValueExpression(new StringValue("!(FALSE) evaluated to FALSE: THIS SHOULD NOT HAVE HAPPENED!")))
+                    ));
+
+
+            statementList.add(
+                    new CompoundStatement(
+                            new VariableDeclarationStatement("v", IntType.T),
+                    new CompoundStatement(
+                            new VariableDeclarationStatement("x", IntType.T),
+                    new CompoundStatement(
+                            new VariableDeclarationStatement("y", IntType.T),
+                    new CompoundStatement(
+                            new AssignmentStatement(
+                                    "v",
+                                    new ValueExpression(new IntValue(0))
+                            ),
+                    new CompoundStatement(
+                            new RepeatUntil(
+                                    new RelationalExpression(
+                                            "==",
+                                            new VariableExpression("v"),
+                                            new ValueExpression(new IntValue(3))
+                                    ),
+                                    new CompoundStatement(
+                                            new ForkStatement(
+                                                new CompoundStatement(
+                                                        new PrintStatement(new VariableExpression("v")),
+                                                        new AssignmentStatement(
+                                                                "v",
+                                                                new ArithmeticExpression(
+                                                                        "-",
+                                                                        new VariableExpression("v"),
+                                                                        new ValueExpression(new IntValue(1))
+                                                                )
+                                                        )
+                                                )
+                                            ),
+                                            new AssignmentStatement(
+                                                    "v",
+                                                    new ArithmeticExpression(
+                                                            "+",
+                                                            new VariableExpression("v"),
+                                                            new ValueExpression(new IntValue(1))
+                                                    )
+                                            )
+                                    )
+                            ),
+                    new CompoundStatement(
+                            new AssignmentStatement(
+                                    "x",
+                                    new ValueExpression(new IntValue(1))
+                            ),
+                    new CompoundStatement(
+                            new Nop(),
+                    new CompoundStatement(
+                            new AssignmentStatement(
+                                    "y",
+                                    new ValueExpression(new IntValue(3))
+                            ),
+                    new CompoundStatement(
+                            new Nop(),
+                            new PrintStatement(new ArithmeticExpression(
+                                    "*",
+                                    new VariableExpression("v"),
+                                    new ValueExpression(new IntValue(10))
+                            ))
+                    )
+                    )
+                    )
+                    )
+                    )
+                    )
+                    )
+                    )
+                    )
+            );
+
             return statementList;
         }
     }

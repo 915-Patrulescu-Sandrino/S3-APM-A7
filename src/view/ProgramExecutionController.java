@@ -14,10 +14,7 @@ import model.values.Value;
 
 import java.io.BufferedReader;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -90,7 +87,7 @@ public class ProgramExecutionController implements Initializable {
     }
 
     private void setNumberOfActiveProgramStatesTextField() {
-        numberOfActiveProgramStatesTextField.setText(Integer.toString(interpreter.getProgramStateList().size()));
+        numberOfActiveProgramStatesTextField.setText(Integer.toString((int) interpreter.getProgramStateList().stream().filter(ProgramState::isNotCompleted).count()));
 //        // longer version
 //        int numberOfActiveProgramStates = interpreter.getProgramStateList().size();
 //        String numberOfActiveProgramStatesString = Integer.toString(numberOfActiveProgramStates);
@@ -100,6 +97,7 @@ public class ProgramExecutionController implements Initializable {
     private void setProgramStateIDsListView() {
         ObservableList<String>  threadIDStringObservableList = FXCollections.observableArrayList();
         interpreter.getProgramStateList().stream()
+                .filter(ProgramState::isNotCompleted)
                 .map(ProgramState::getThreadID)
                 .map(String::valueOf)
                 .forEach(threadIDStringObservableList::add);
@@ -108,6 +106,7 @@ public class ProgramExecutionController implements Initializable {
 
     private void setSymbolTableTableViewAndExecutionStackListView() {
         symbolTableTableView.refresh();
+        executionStackListView.refresh();
         // TODO
 //         for which Symbol Table?
 //         I believe we need single selection for the ProgramStateIDsListView, but in the template i didn't see one yet
@@ -139,18 +138,26 @@ public class ProgramExecutionController implements Initializable {
 //                executionStackListView.setItems(FXCollections.observableList(Arrays.asList(programState.getExecutionStack().toString().split("\n"))));
 //            });
 
+        Runnable action = () -> { executionStackListView.setItems(FXCollections.observableList(new ArrayList<>()));};
+
+        String selectedStateID = programStateIDsListView.getSelectionModel().getSelectedItem();
+        if (selectedStateID == null) {
+            if (interpreter.getAnyProgramState().isEmpty()) action.run();
+            return;
+        }
         interpreter.getProgramStateList().stream()
                 // filter the Program States by having the threadID equal to the threadID of the selected Program
-                .filter(programState -> programState.getThreadID() == Integer.parseInt(programStateIDsListView.getSelectionModel().getSelectedItem()))
+                .filter(programState -> programState.getThreadID() == Integer.parseInt(selectedStateID))
                 .limit(1).findAny()
 //                    Stream.of(programStateIDsListView.getSelectionModel().getSelectedItem()) // TODO: check how selection can behave, like if it can return null
 //                            .map(Integer::parseInt).reduce(0, Integer::sum))
                 // tale the first one, and, if it exists
-                    .ifPresent(programState -> {
+
+                .ifPresentOrElse(programState -> {
                     //System.out.println("setSymbolTableTableViewAndExecutionStackListView(): found present ID" + programState.getThreadID());
                     symbolTableTableView.setItems(FXCollections.observableList(programState.getSymbolTable().getContent().entrySet().stream().toList()));
                     executionStackListView.setItems(FXCollections.observableList(Arrays.asList(programState.getExecutionStack().toString().split("\n"))));
-                });
+                },  action);
     }
 
     private void setHeapTableTableView() {

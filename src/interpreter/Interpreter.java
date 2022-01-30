@@ -170,6 +170,7 @@ public class Interpreter {
 //        logProgramStateExecution(programList, "\033[1mAFTER\033[0m\n");
         logProgramStateExecution(programList, null);
 
+//        repository.setProgramList(programList.stream().filter(ProgramState::isNotCompleted).collect(Collectors.toList()));
         repository.setProgramList(programList);
     }
 
