@@ -23,6 +23,7 @@ public class ProgramState {
     private static final AtomicInteger lastProgramID = new AtomicInteger(0);
     private final AtomicInteger lastThreadID = new AtomicInteger(0);
     private final int threadID;
+    private final IDictionary<Integer, Pair<Integer, List<Integer>>> barrierTable;
 
     public int getThreadID() {
         return threadID;
@@ -38,6 +39,7 @@ public class ProgramState {
         this.executionStack.push(statement);
         this.lastThreadID.set(programState.lastThreadID.getAndIncrement());
         this.threadID = programState.threadID + this.lastThreadID.get();
+        this.barrierTable = programState.barrierTable;
     }
 
 
@@ -50,9 +52,10 @@ public class ProgramState {
         this.originalProgram = originalProgram;
         this.executionStack.push(originalProgram);
         this.threadID = lastProgramID.addAndGet(1000) + lastThreadID.incrementAndGet();
+        this.barrierTable = new Dictionary<>();
     }
 
-    public ProgramState(IExecutionStack<IStatement> executionStack, IDictionary<String, Value> symbolTable, IOutList<Value> outList, IFileTable<StringValue, BufferedReader> fileTable, IHeap<Integer, Value> heap, IStatement originalProgram) {
+    public ProgramState(IExecutionStack<IStatement> executionStack, IDictionary<String, Value> symbolTable, IOutList<Value> outList, IFileTable<StringValue, BufferedReader> fileTable, IHeap<Integer, Value> heap, IDictionary<Integer, Pair<Integer, List<Integer>>> barrierTable, IStatement originalProgram) {
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
         this.outList = outList;
@@ -61,6 +64,7 @@ public class ProgramState {
         this.originalProgram = originalProgram.deepCopy(); // TODO: find out how this properly is done (do the same for the above constructor)
         this.executionStack.push(originalProgram);
         this.threadID = lastProgramID.addAndGet(1000) + lastThreadID.incrementAndGet();
+        this.barrierTable = barrierTable;
     }
 
     public IExecutionStack<IStatement> getExecutionStack() {
@@ -83,13 +87,23 @@ public class ProgramState {
         return heap;
     }
 
+    public IDictionary<Integer, Pair<Integer, List<Integer>>> getBarrierTable() {
+        return barrierTable;
+    }
+
     public IStatement getOriginalProgram() {
         return originalProgram;
     }
 
     @Override
     public String toString() {
-        return "" + executionStack + '\n' + symbolTable + '\n' + outList + '\n' + fileTable + '\n' + heap;
+        return ""
+                + executionStack + '\n'
+                + symbolTable + '\n'
+                + outList + '\n'
+                + fileTable + '\n'
+                + heap + '\n'
+                + barrierTable;
     }
 
     public String prettyPrint() {
@@ -110,6 +124,7 @@ public class ProgramState {
         map.put(3, Map.entry("OutList", outList.toString()));
         map.put(4, Map.entry("FileTable", fileTable.toString()));
         map.put(5, Map.entry("Heap", heap.toString()));
+        map.put(6, Map.entry("BarrierTable", barrierTable.toString()));
         return String.format("ID: %4s\n", threadID) + map.values().stream()
                 .map(s -> prefix + s.getKey() + suffix + "\n" + s.getValue() + "\n")
                 .reduce("", (acc, item) -> acc+ item).concat("\n\n\n");
