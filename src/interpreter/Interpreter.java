@@ -143,7 +143,9 @@ public class Interpreter {
     public void oneStepForAllPrograms(List<ProgramState> programList) {
 //        logProgramStateExecution(programList, "\033[1mBEFORE\033[0m\n"); // moved in allStep
 
-        List<Callable<ProgramState>> callableList = programList.stream()
+        List<Callable<ProgramState>> callableList =
+                programList.stream()
+                .filter(ProgramState::isNotCompleted) // since removeCompletedPrograms was no longer called
                 .map((ProgramState p) -> (Callable<ProgramState>)(p::oneStep))
                 .collect(Collectors.toList());
 
@@ -225,15 +227,6 @@ public class Interpreter {
 
     public static Interpreter createExampleInterpreter(IStatement statement, String logFilePath, String[] args) {
 
-        try {
-            statement.typecheck(new Dictionary<>());
-        }
-        catch (Exception exception) {
-            String message = String.format("Typechecker failed for statement: %s\nReason: %s", statement.toString(), exception.getMessage());
-            System.out.println(message);
-            System.exit(1);
-
-        }
         ProgramState programState = new ProgramState(statement);
         IRepository<ProgramState> repository = new Repository(programState, logFilePath);
         Interpreter interpreter = new Interpreter(repository);
@@ -254,6 +247,17 @@ public class Interpreter {
         int counter;
         for (counter = 1; counter <= examples.size(); counter++) {
             IStatement statement = examples.get(counter - 1);
+
+            try {
+                statement.typecheck(new Dictionary<>());
+            }
+            catch (Exception exception) {
+                String message = String.format("Typechecker failed for statement: %d: %s\nReason: %s", counter, statement.toString(), exception.getMessage());
+                System.out.println(message);
+                continue;
+
+            }
+
             String logFilePath = String.format("log/log%02d.txt", counter);
 
             /* this */

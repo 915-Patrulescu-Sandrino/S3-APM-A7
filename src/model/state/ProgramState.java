@@ -9,6 +9,7 @@ import model.values.Value;
 import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProgramState {
     private final IExecutionStack<IStatement> executionStack;
@@ -17,18 +18,26 @@ public class ProgramState {
     private final IFileTable<StringValue, BufferedReader> fileTable;
     private final IHeap<Integer, Value> heap;
     private final IStatement originalProgram;
-    private static int id = 1;
+    private static final AtomicInteger lastProgramID = new AtomicInteger(0);
+    private final AtomicInteger lastThreadID = new AtomicInteger(0);
+    private final int threadID;
 
     public int getThreadID() {
         return threadID;
     }
 
-    private int threadID = getNewProgramStateId(1000);
-
-    private synchronized int getNewProgramStateId(int  addition) {
-        id = id + addition;
-        return id;
+    private ProgramState(ProgramState programState, IStatement statement) {
+        this.executionStack = new ExecutionStack<>();
+        this.symbolTable = programState.symbolTable.deepcopy();
+        this.outList = programState.outList;
+        this.fileTable = programState.fileTable;
+        this.heap = programState.heap;
+        this.originalProgram = statement.deepCopy();
+        this.executionStack.push(statement);
+        this.lastThreadID.set(programState.lastThreadID.getAndIncrement());
+        this.threadID = programState.threadID + this.lastThreadID.get();
     }
+
 
     public ProgramState(IStatement originalProgram) {
         this.executionStack = new ExecutionStack<>();
@@ -38,6 +47,8 @@ public class ProgramState {
         this.heap = new Heap();
         this.originalProgram = originalProgram;
         this.executionStack.push(originalProgram);
+        this.threadID = lastProgramID.addAndGet(1000) + lastThreadID.incrementAndGet();
+
     }
 
     public ProgramState(IExecutionStack<IStatement> executionStack, IDictionary<String, Value> symbolTable, IOutList<Value> outList, IFileTable<StringValue, BufferedReader> fileTable, IHeap<Integer, Value> heap, IStatement originalProgram) {
@@ -48,6 +59,7 @@ public class ProgramState {
         this.heap = heap;
         this.originalProgram = originalProgram.deepCopy(); // TODO: find out how this properly is done (do the same for the above constructor)
         this.executionStack.push(originalProgram);
+        this.threadID = lastProgramID.addAndGet(1000) + lastThreadID.incrementAndGet();
     }
 
     public IExecutionStack<IStatement> getExecutionStack() {
@@ -113,17 +125,6 @@ public class ProgramState {
 
         IStatement statement = executionStack.pop();
         return statement.execute(this);
-    }
-
-    private ProgramState(ProgramState programState, IStatement statement) {
-        this.executionStack = new ExecutionStack<>();
-        this.symbolTable = programState.symbolTable.deepcopy();
-        this.outList = programState.outList;
-        this.fileTable = programState.fileTable;
-        this.heap = programState.heap;
-        this.originalProgram = statement.deepCopy();
-        this.executionStack.push(statement);
-        this.threadID = programState.threadID + 1;
     }
 
     public ProgramState fork(IStatement statement) {

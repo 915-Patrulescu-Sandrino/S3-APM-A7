@@ -8,7 +8,12 @@ DATE\_FORMAT=`YYYY.MM.DD [~]HH:MM[:SS]
 2. feature 2
 ...
 
-# changes 2022.01.29
+
+# changes 2022.01.29 02:01
+1. Trial #1: filter non finished program states in `Interpreter.oneStepForAllPrograms()`
+
+
+# changes 2022.01.29 ????
 1. added `.getDeclaredConstructor()` in ProgramSelectionController line 121 to get rid of the compiler warning
 2. set the default value for logging to file to true
 3. add typechecking with alert for the program examples in ProgramSelectionController.interpreterSetUp() UPDATE: exclude the failed programs from the list of added programs
@@ -54,13 +59,13 @@ at interpreter.Interpreter.oneStepForAllPrograms(Interpreter.java:155)
 at interpreter.Interpreter.oneStepForAllPrograms(Interpreter.java:178)
 at view.ProgramExecutionController.oneStep(ProgramExecutionController.java:163)
 at view.ProgramExecutionController.handleOneStepButtonAction(ProgramExecutionController.java:176)
-I belive this is pretty self-explanatory: The invoker is initialized only in the
+I believe this is pretty self-explanatory: The invoker is initialized only in the
 allStep() method from the Interpreter, this means that since the Threads Assignment,
 the oneStepForAllPrograms() method wouldn't have worked
 fix: initialize the executor in the Interpreter's constructor
 UPDATE: is it really OK to have the executor initialized there?
 UPDATE 2: I guess that as long as you don't run the same program from the same interpreter 
-in parellel, then it's ok
+in parallel, then it's ok
 -also noted that the number of threads is 2,
 so increase it to 10
 -[Interpreter.oneStepForAllPrograms] failed: java.lang.Exception: ProgramState's ExecutionStack is empty!

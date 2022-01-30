@@ -19,6 +19,7 @@
     <rowConstraints>
         <RowConstraints vgrow="SOMETIMES"/>
         <RowConstraints vgrow="SOMETIMES"/>
+        <RowConstraints vgrow="SOMETIMES"/>
     </rowConstraints>
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" />
