@@ -384,6 +384,93 @@ public interface IStatement extends Cloneable<IStatement> {
                     )
             );
 
+            statementList.add(
+            new CompoundStatement(
+                    new VariableDeclarationStatement("v1", new RefType(IntType.T)),
+            new CompoundStatement(
+                    new VariableDeclarationStatement("v2", new RefType(IntType.T)),
+            new CompoundStatement(
+                    new VariableDeclarationStatement("v3", new RefType(IntType.T)),
+            new CompoundStatement(
+                    new VariableDeclarationStatement("cnt", IntType.T),
+            new CompoundStatement(
+                    new HeapAllocationStatement(
+                            "v1",
+                            new ValueExpression(new IntValue(2))
+                    ),
+            new CompoundStatement(
+                    new HeapAllocationStatement(
+                            "v2",
+                            new ValueExpression(new IntValue(3))
+                    ),
+            new CompoundStatement(
+                    new HeapAllocationStatement(
+                            "v3",
+                            new ValueExpression(new IntValue(4))
+                    ),
+            new CompoundStatement(
+                    new NewBarrier(
+                            "cnt",
+                            new HeapReadExpression(new VariableExpression("v2"))
+                    ),
+            new CompoundStatement(
+                    new ForkStatement(
+                        new CompoundStatement(
+                            new Await("cnt"),
+                        new CompoundStatement(
+                            new HeapWriteStatement(
+                                    "v1",
+                                    new ArithmeticExpression(
+                                            "*",
+                                            new HeapReadExpression(new VariableExpression("v1")),
+                                            new ValueExpression(new IntValue(10))
+                                    )
+                            ),
+                            new PrintStatement(new HeapReadExpression(new VariableExpression("v1")))    
+                        )    
+                        )),
+            new CompoundStatement(
+                    new ForkStatement(
+                        new CompoundStatement(
+                            new Await("cnt"),
+                        new CompoundStatement(
+                            new HeapWriteStatement(
+                                    "v2",
+                                    new ArithmeticExpression(
+                                            "*",
+                                            new HeapReadExpression(new VariableExpression("v2")),
+                                            new ValueExpression(new IntValue(10))
+                                    )
+                            ),
+                        new CompoundStatement(
+                            new HeapWriteStatement(
+                                    "v2",
+                                    new ArithmeticExpression(
+                                            "*",
+                                            new HeapReadExpression(new VariableExpression("v2")),
+                                            new ValueExpression(new IntValue(10))
+                                    )
+                            ),
+                            new PrintStatement(new HeapReadExpression(new VariableExpression("v2")))    
+                        )   
+                        )    
+                        )),
+            new CompoundStatement(
+                    new Await("cnt"),
+                    new PrintStatement(new HeapReadExpression(new VariableExpression("v3")))
+            )
+            )
+            )
+            )
+            )
+            )
+            )
+            )
+            )
+            )
+            )
+            );
+
             return statementList;
         }
     }

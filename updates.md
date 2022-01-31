@@ -15,8 +15,13 @@ DATE\_FORMAT=`YYYY.MM.DD [~]HH:MM[:SS]
 - add RepeatUntil Statement @ 18:18
     - fix complete programs appearing in the State IDs @ 18:39 by filtering not complete programs in ProgramExecutionController.setProgramStateIDsListView
 - found run-time bug at ProgramExecutionController.setSymbolTableTableViewAndExecutionStackListView() when getting the selected item -> null case wasn't checked @ 20:52
-2. CyclicBarrier 19: -> 
-
+2. CyclicBarrier ~23:53 -> 3:11
+phase 1:
+phase 2: add BarrierTableTableView
+phase 3:
+- problem:barrierTableTableView not showing the list
+- fix: refresh the table
+- change ExecutionStack toString to do a regular print and the toString for CompoundStatement
 
 
 

@@ -1,6 +1,5 @@
 package model.adts;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -52,7 +51,7 @@ public class Dictionary<K, V> implements IDictionary<K, V> {
     public String toString() {
         return hashMap.entrySet()
                 .stream()
-                .map(kvEntry -> kvEntry.getKey() + "-->" + kvEntry.getValue())
+                .map(kvEntry -> kvEntry.getKey() + " --> " + kvEntry.getValue())
                 .reduce("", (acc, e) -> acc + e + "\n");
     }
 }

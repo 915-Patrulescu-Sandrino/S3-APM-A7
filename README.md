@@ -51,7 +51,7 @@ selected from the list described at `e.` First element of the ListView is
 a string represenatation of the top of ExeStack, the second element of the  
 ListView represents the second element from the ExeStack and so on.
 
-h. A button "Run one step" that runs oneStepForAllPrg (you have to design and  
+h. A button "Run one step" that runs oneStepForAllPrg you have to design and  
 implement the handler of this button based on the previous method allStep  
 After each run the displayed information is updated. You may want to write a  
 service which wraps the repository and signals any change of the list of  
@@ -94,11 +94,20 @@ selected from the list described at `e.` First element of the ListView is
 a string represenatation of the top of ExeStack, the second element of the  
 ListView represents the second element from the ExeStack and so on.
 
-h. A button "Run one step" that runs oneStepForAllPrg (you have to design and  
+h. A button "Run one step" that runs oneStepForAllPrg you have to design and  
 implement the handler of this button based on the previous method allStep  
 After each run the displayed information is updated. You may want to write a  
 service which wraps the repository and signals any change of the list of  
 PrgStates.
+
+| HBox(Active Program States)         | VBox(1StepButton, AllStepButton) |                          | VBox1(APS) |
+|-------------------------------------|----------------------------------|--------------------------|------------|
+| VBox(SymbolTableTableView)          | VBox(HeapTableView)              | VBox(FileTableTableView) | VBox1(APS) |
+| HBox1(VBox(ExecutionStackListView)) | HBox1(VBox(OutListListView))     |                          | VBox1(APS) |
+
+
+
+
 
 
 # How to configure JavaFX

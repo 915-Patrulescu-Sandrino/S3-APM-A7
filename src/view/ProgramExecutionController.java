@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.util.Pair;
 import model.state.ProgramState;
 import model.values.StringValue;
 import model.values.Value;
@@ -57,6 +58,16 @@ public class ProgramExecutionController implements Initializable {
     @FXML
     private ListView<String> programStateIDsListView;
 
+    @FXML
+    private TableView<Map.Entry<Integer, Pair<Integer, List<Integer>>>> barrierTableTableView;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> barrierTableTableViewAddressColumn;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> barrierTableTableViewNColumn;
+    @FXML
+    private TableColumn<Map.Entry<Integer, Pair<Integer, List<Integer>>>, String> barrierTableTableViewListColumn;
+
+
     public ProgramExecutionController(Interpreter interpreter) {
         this.interpreter = interpreter;
     }
@@ -83,17 +94,19 @@ public class ProgramExecutionController implements Initializable {
             programStateIDsListView.getSelectionModel().selectFirst();
         }
         setSymbolTableTableViewAndExecutionStackListView();
+        setBarrierTableTableView();
     }
 
     private void setNumberOfActiveProgramStatesTextField() {
-        numberOfActiveProgramStatesTextField.setText(Integer.toString((int) interpreter.getProgramStateList().stream().filter(ProgramState::isNotCompleted).count()));
-//        // longer version
-//        int numberOfActiveProgramStates = interpreter.getProgramStateList().size();
-//        String numberOfActiveProgramStatesString = Integer.toString(numberOfActiveProgramStates);
-//        numberOfActiveProgramStatesTextField.setText(numberOfActiveProgramStatesString);
+        numberOfActiveProgramStatesTextField.setText(
+                Integer.toString((int) interpreter.getProgramStateList()
+                        .stream()
+                        .filter(ProgramState::isNotCompleted) // TODO: is this filter required? or is it correct?
+                        .count()));
     }
 
     private void setProgramStateIDsListView() {
+        programStateIDsListView.refresh();
         ObservableList<String>  threadIDStringObservableList = FXCollections.observableArrayList();
         interpreter.getProgramStateList().stream()
                 .filter(ProgramState::isNotCompleted)
@@ -123,44 +136,33 @@ public class ProgramExecutionController implements Initializable {
         symbolTableTableViewSymbolColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getKey()));
         symbolTableTableViewValueColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().toString()));
 
-
-        // stream the Program States from the ListView,
-//        interpreter.getProgramStateList().stream()
-//            // filter the Program States by having the threadID equal to the threadID of the selected Program
-//            .filter(programState -> programState.getThreadID() == Integer.parseInt(programStateIDsListView.getSelectionModel().getSelectedItem()))
-////                    Stream.of(programStateIDsListView.getSelectionModel().getSelectedItem()) // TODO: check how selection can behave, like if it can return null
-////                            .map(Integer::parseInt).reduce(0, Integer::sum))
-//            // tale the first one, and, if it exists
-//                .findFirst().ifPresent(programState -> {
-//                System.out.println("setSymbolTableTableViewAndExecutionStackListView(): found present ID" + programState.getThreadID());
-//                symbolTableTableView.setItems(FXCollections.observableList(programState.getSymbolTable().getContent().entrySet().stream().toList()));
-//                executionStackListView.setItems(FXCollections.observableList(Arrays.asList(programState.getExecutionStack().toString().split("\n"))));
-//            });
-
-        Runnable action = () -> { executionStackListView.setItems(FXCollections.observableList(new ArrayList<>()));};
+        Runnable clearExecutionStackListView = () -> { executionStackListView.setItems(FXCollections.observableList(new ArrayList<>()));};
 
         String selectedStateID = programStateIDsListView.getSelectionModel().getSelectedItem();
         if (selectedStateID == null) {
-            if (interpreter.getAnyProgramState().isEmpty()) action.run();
+            if (interpreter.getAnyProgramState().isEmpty()) clearExecutionStackListView.run();
             return;
         }
+
+        //         stream the Program States from the ListView,
         interpreter.getProgramStateList().stream()
                 // filter the Program States by having the threadID equal to the threadID of the selected Program
                 .filter(programState -> programState.getThreadID() == Integer.parseInt(selectedStateID))
-                .limit(1).findAny()
-//                    Stream.of(programStateIDsListView.getSelectionModel().getSelectedItem()) // TODO: check how selection can behave, like if it can return null
-//                            .map(Integer::parseInt).reduce(0, Integer::sum))
-                // tale the first one, and, if it exists
-
-                .ifPresentOrElse(programState -> {
-                    //System.out.println("setSymbolTableTableViewAndExecutionStackListView(): found present ID" + programState.getThreadID());
-                    symbolTableTableView.setItems(FXCollections.observableList(programState.getSymbolTable().getContent().entrySet().stream().toList()));
-                    executionStackListView.setItems(FXCollections.observableList(Arrays.asList(programState.getExecutionStack().toString().split("\n"))));
-                },  action);
+                // take the first one,
+                .limit(1)
+                // and, if it exists, otherwise clear the executionStackListView
+                .findAny()
+                .ifPresentOrElse(
+                        programState -> {
+                          //System.out.println("setSymbolTableTableViewAndExecutionStackListView(): found present ID" + programState.getThreadID());
+                            symbolTableTableView.setItems(FXCollections.observableList(programState.getSymbolTable().getContent().entrySet().stream().toList()));
+                            executionStackListView.setItems(FXCollections.observableList(Arrays.asList(programState.getExecutionStack().toString().split("\n"))));
+                        },
+                        clearExecutionStackListView
+                );
     }
 
     private void setHeapTableTableView() {
-        // TODO
         heapTableTableView.refresh();
         heapTableTableViewAddressColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getKey().toString()));
         heapTableTableViewValueColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().toString()));
@@ -171,7 +173,7 @@ public class ProgramExecutionController implements Initializable {
     }
 
     private void setFileTableTableView() {
-        // TODO
+        fileTableTableView.refresh();
         fileTableTableViewIDColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getKey().toString()));
         fileTableTableViewFileColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().toString()));
 
@@ -181,11 +183,27 @@ public class ProgramExecutionController implements Initializable {
     }
 
     private void setOutListListView() {
-        // TODO
+        outListListView.refresh();
         interpreter.getAnyProgramState().ifPresent(programState -> {
             List<String> stringList = Arrays.stream(programState.getOutList().toString().split("\n")).toList();
             outListListView.setItems(FXCollections.observableList(stringList));
         });
+    }
+
+    private void setBarrierTableTableView() {
+        barrierTableTableView.refresh();
+
+        barrierTableTableViewAddressColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getKey().toString()));
+        barrierTableTableViewNColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getKey().toString()));
+        barrierTableTableViewListColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getValue().getValue().toString()));
+
+        interpreter.getAnyProgramState().ifPresentOrElse(
+                programState -> {
+                    barrierTableTableView.setItems(FXCollections.observableList(programState.getBarrierTable().getContent().entrySet().stream().toList()));
+                },
+                () -> barrierTableTableView.setItems(FXCollections.emptyObservableList())
+        );
+
     }
 
     private static void alert(Alert.AlertType alertType, String title, String headerText, String contentText) {
@@ -208,20 +226,19 @@ public class ProgramExecutionController implements Initializable {
             // execute one step
             interpreter.oneStepForAllPrograms();
         }
-        update(); // TODO test what happens if I update anyway
+        update();
     }
 
     @FXML
     public void handleOneStepButtonAction(ActionEvent actionEvent) {
 //        System.out.println("1 Step Button Pressed");
-        // TODO
         oneStep();
     }
 
     @FXML
     public void handleAllStepButtonAction(ActionEvent actionEvent) {
 //        System.out.println("All Step Button Pressed");
-        // TODO
+
         // pressing All Step on an already completed program
         if (interpreter.isFinished()) {
             alert(Alert.AlertType.INFORMATION, "Current Program finished", null, "Program execution is already finished");

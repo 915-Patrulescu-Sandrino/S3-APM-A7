@@ -83,7 +83,7 @@
         </VBox>
 <!--        HBox of Execution Stack and Out List -->
         <HBox GridPane.columnIndex="0" GridPane.rowIndex="2"
-              GridPane.columnSpan="3" GridPane.rowSpan="1" alignment="CENTER" spacing="20.0" maxWidth="Infinity">
+              GridPane.columnSpan="2" GridPane.rowSpan="1" alignment="CENTER" spacing="20.0" maxWidth="Infinity">
 <!--            <padding>-->
 <!--                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />-->
 <!--            </padding>-->
@@ -96,6 +96,23 @@
                 <ListView fx:id="outListListView" maxWidth="Infinity"/>
             </VBox>
         </HBox>
+
+<!--        BarrierTable -->
+        <VBox maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Text text="Barrier Table:"/>
+            <TableView fx:id="barrierTableTableView" maxWidth="Infinity">
+                <columnResizePolicy>  <!-- to get rid of the extra space in the header column-->
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+
+                <columns>
+                    <TableColumn fx:id="barrierTableTableViewAddressColumn" text="Address"/>
+                    <TableColumn fx:id="barrierTableTableViewNColumn" text="N"/>
+                    <TableColumn fx:id="barrierTableTableViewListColumn" text="List"/>
+                </columns>
+            </TableView>
+        </VBox>
+
 <!--        Active Program States IDs -->
         <VBox GridPane.columnIndex="4" GridPane.rowIndex="0" GridPane.columnSpan="1" GridPane.rowSpan="3">
             <Text text="States IDs:"/>

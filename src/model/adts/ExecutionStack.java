@@ -2,8 +2,6 @@ package model.adts;
 
 
 import exceptions.adts.execution_stack.ExecutionStackFullException;
-import model.statement.CompoundStatement;
-import model.statement.IStatement;
 
 import java.util.Deque;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -39,20 +37,29 @@ public class ExecutionStack<V> implements IExecutionStack<V> {
         return stack.isEmpty();
     }
 
+//    // splits the compound statements on newlines
+//    @Override
+//    public String toString() {
+//        String result = "";
+//        for (Object statement : stack.toArray()) {
+//            if (statement instanceof IStatement && !(statement instanceof CompoundStatement)) {
+//                result = result.concat(statement + "\n");
+//            }
+//            if (statement instanceof CompoundStatement) {
+//                for (IStatement atomStatement : ((CompoundStatement) statement).InOrderTraversal()) {
+//                    result = result.concat(atomStatement.toString() + "\n");
+//                }
+//            }
+//        }
+//        return result;
+//    }
+
     @Override
     public String toString() {
         String result = "";
         for (Object statement : stack.toArray()) {
-            if (statement instanceof IStatement && !(statement instanceof CompoundStatement)) {
-                result = result.concat(statement + "\n");
-            }
-            if (statement instanceof CompoundStatement) {
-                for (IStatement atomStatement : ((CompoundStatement) statement).InOrderTraversal()) {
-                    result = result.concat(atomStatement.toString() + "\n");
-                }
-            }
+            result = result.concat(statement + "\n");
         }
-
         return result;
     }
 }

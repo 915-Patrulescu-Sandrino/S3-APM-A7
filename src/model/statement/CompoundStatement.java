@@ -41,8 +41,8 @@ public class CompoundStatement implements IStatement {
 
     @Override
     public String toString() {
-//        return "(" + first + ";" + second + ")";
-        return first + "; " + second;
+        return "(" + first + ";" + second + ")";
+//        return first + "; " + second;
     }
 
 //    public String toStringWithInOrderTraversal() {
